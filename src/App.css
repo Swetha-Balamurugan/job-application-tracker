@@ -1,0 +1,173 @@
+.app-container {
+  min-height: 100vh;
+  padding: 20px 0 40px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+
+.statistics-wrapper {
+  padding: 0 20px;
+}
+
+.statistics-wrapper .card {
+  min-height: 125px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.statistics-wrapper .card-body {
+  text-align: center;
+}
+
+.statistics-wrapper h5 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.statistics-wrapper small {
+  font-size: 18px;
+}
+
+
+
+.app-container.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+
+.dark-mode h1 {
+  color: #66a3ff !important;
+}
+
+
+.dark-mode .card {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border-color: #444;
+}
+
+
+.dark-mode .form-control {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border-color: #555;
+}
+
+.dark-mode .form-control::placeholder {
+  color: #aaaaaa;
+}
+
+.dark-mode .form-control:focus {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border-color: #66a3ff;
+}
+
+
+.dark-mode .form-select {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border-color: #555;
+}
+
+.dark-mode .form-select:focus {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+
+.dark-mode option {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+
+.dark-mode .input-group-text {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border-color: #555;
+}
+
+
+.dark-mode .list-group-item {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border-color: #444;
+}
+
+
+.dark-mode .text-muted {
+  color: #aaaaaa !important;
+}
+
+
+
+.list-group-item {
+  transition: background-color 0.3s ease;
+}
+
+.list-group-item h5 {
+  font-weight: 600;
+}
+
+
+
+@media (max-width: 768px) {
+  .app-container {
+    padding-top: 15px;
+  }
+
+  .statistics-wrapper {
+    padding: 0 10px;
+  }
+
+  .statistics-wrapper .card {
+    min-height: 110px;
+  }
+
+  .statistics-wrapper h5 {
+    font-size: 24px;
+  }
+
+  .statistics-wrapper small {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .app-container {
+    padding: 10px 0 30px;
+  }
+
+  .statistics-wrapper {
+    padding: 0;
+  }
+
+  .statistics-wrapper .card {
+    min-height: 100px;
+  }
+
+  .statistics-wrapper h5 {
+    font-size: 22px;
+  }
+
+  .statistics-wrapper small {
+    font-size: 14px;
+  }
+
+  .list-group-item {
+    padding: 15px;
+  }
+
+  .list-group-item h5 {
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 14px;
+  }
+}
