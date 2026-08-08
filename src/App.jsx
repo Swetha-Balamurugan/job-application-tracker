@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 
-import Header from "./components/Header";
-import Statistics from "./components/Statistics";
-import JobForm from "./components/JobForm";
-import SearchBar from "./components/SearchBar";
-import JobList from "./components/JobList";
-
-import "./App.css";
+import Header from "./Components/Header";
+import Statistics from "./Components/Statistics";
+import JobForm from "./Components/Jobform";
+import SearchBar from "./Components/SearchBar";
+import JobList from "./Components/JobList";
 
 function App() {
   const [jobTitle, setJobTitle] = useState("");
