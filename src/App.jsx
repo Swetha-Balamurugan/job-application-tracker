@@ -5,33 +5,48 @@ import Header from "./Components/Header";
 import Statistics from "./Components/Statistics";
 import JobForm from "./Components/Jobform";
 import SearchBar from "./Components/SearchBar";
-import JobList from "./Components/JobList";
-import "./app.css";
+import KanbanBoard from "./Components/KanbanBoard";
 function App() {
   const [jobTitle, setJobTitle] = useState("");
   const [status, setStatus] = useState("Applied");
   const [search, setSearch] = useState("");
 
+ 
   const [darkMode, setDarkMode] = useState(() => {
-  return localStorage.getItem("darkMode") === "true";
-});
+    return localStorage.getItem("darkMode") === "true";
+  });
 
-  useEffect(() => {
-  localStorage.setItem("darkMode", darkMode);
-}, [darkMode]);
-
+  
   const [jobs, setJobs] = useState(() => {
     const savedJobs = localStorage.getItem("jobs");
-    return savedJobs ? JSON.parse(savedJobs) : [];
+
+    if (!savedJobs) {
+      return [];
+    }
+
+    const parsedJobs = JSON.parse(savedJobs);
+
+    
+    return parsedJobs.map((job) => ({
+      ...job,
+      id: job.id || crypto.randomUUID(),
+    }));
   });
 
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
 
+  
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
+
+  
   useEffect(() => {
     localStorage.setItem("jobs", JSON.stringify(jobs));
   }, [jobs]);
 
+  
   function addJob() {
     if (jobTitle.trim() === "") return;
 
@@ -48,20 +63,21 @@ function App() {
       setIsEditing(false);
       setEditIndex(null);
     } else {
-      setJobs([
-        ...jobs,
-        {
-          company: jobTitle.trim(),
-          status: status,
-          date: new Date().toLocaleDateString("en-GB"),
-        },
-      ]);
+      const newJob = {
+        id: crypto.randomUUID(),
+        company: jobTitle.trim(),
+        status: status,
+        date: new Date().toLocaleDateString("en-GB"),
+      };
+
+      setJobs([...jobs, newJob]);
     }
 
     setJobTitle("");
     setStatus("Applied");
   }
 
+  
   function editJob(index) {
     setJobTitle(jobs[index].company);
     setStatus(jobs[index].status || "Applied");
@@ -69,10 +85,12 @@ function App() {
     setIsEditing(true);
   }
 
+ 
   function deleteJob(index) {
     setJobs(jobs.filter((_, i) => i !== index));
   }
 
+ 
   function clearAllJobs() {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete all jobs?"
@@ -83,10 +101,12 @@ function App() {
     }
   }
 
+  
   const filteredJobs = jobs.filter((job) =>
     job.company.toLowerCase().includes(search.toLowerCase())
   );
 
+ 
   const totalJobs = jobs.length;
 
   const appliedJobs = jobs.filter(
@@ -106,85 +126,94 @@ function App() {
   ).length;
 
   return (
-  <div className={`app-container ${darkMode ? "dark-mode" : ""}`}>
-    <div className="container mt-5" style={{ maxWidth: "700px" }}>
+    <div className={darkMode ? "app dark-mode" : "app"}>
+      <div
+        className="container mt-5"
+        style={{ maxWidth: "1100px" }}
+      >
+       
+        <Header />
 
-      <Header />
-
-      
-      <div className="text-end mb-3">
-        <button
-          className={`btn ${darkMode ? "btn-light" : "btn-dark"}`}
-          onClick={() => setDarkMode(!darkMode)}
-        >
-          {darkMode ? (
-            <>
-              <FaSun className="me-2" />
-              Light Mode
-            </>
-          ) : (
-            <>
-              <FaMoon className="me-2" />
-              Dark Mode
-            </>
-          )}
-        </button>
-      </div>
-
-     
-      <Statistics
-        totalJobs={totalJobs}
-        appliedJobs={appliedJobs}
-        interviewJobs={interviewJobs}
-        rejectedJobs={rejectedJobs}
-        offerJobs={offerJobs}
-      />
-
-     
-      <JobForm
-        jobTitle={jobTitle}
-        setJobTitle={setJobTitle}
-        status={status}
-        setStatus={setStatus}
-        addJob={addJob}
-        isEditing={isEditing}
-      />
-
-     
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-      />
+       
+        <div className="text-end mb-3">
+          <button
+            type="button"
+            className={`btn ${
+              darkMode ? "btn-light" : "btn-dark"
+            }`}
+            onClick={() => setDarkMode(!darkMode)}
+          >
+            {darkMode ? (
+              <>
+                <FaSun className="me-2" />
+                Light Mode
+              </>
+            ) : (
+              <>
+                <FaMoon className="me-2" />
+                Dark Mode
+              </>
+            )}
+          </button>
+        </div>
 
       
-      <div className="text-end mb-3">
-        <button
-          className="btn btn-outline-danger"
-          onClick={clearAllJobs}
-        >
-          Clear All
-        </button>
-      </div>
-
-    
-      {jobs.length === 0 ? (
-        <p className="text-center text-muted">
-          No jobs added yet.
-        </p>
-      ) : filteredJobs.length === 0 ? (
-        <p className="text-center text-danger">
-          No matching jobs found.
-        </p>
-      ) : (
-        <JobList
-          jobs={filteredJobs}
-          editJob={editJob}
-          deleteJob={deleteJob}
+        <Statistics
+          totalJobs={totalJobs}
+          appliedJobs={appliedJobs}
+          interviewJobs={interviewJobs}
+          rejectedJobs={rejectedJobs}
+          offerJobs={offerJobs}
         />
-      )}
 
+       
+        <JobForm
+          jobTitle={jobTitle}
+          setJobTitle={setJobTitle}
+          status={status}
+          setStatus={setStatus}
+          addJob={addJob}
+          isEditing={isEditing}
+        />
+
+      
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+        />
+
+       
+        <div className="text-end mb-3 mt-3">
+          <button
+            type="button"
+            className="btn btn-outline-danger"
+            onClick={clearAllJobs}
+          >
+            Clear All
+          </button>
+        </div>
+
+        
+        
+        {jobs.length === 0 ? (
+          <p className="text-center text-muted mt-4">
+            No jobs added yet.
+          </p>
+        ) : filteredJobs.length === 0 ? (
+          <p className="text-center text-danger mt-4">
+            No matching jobs found.
+          </p>
+        ) : (
+          <KanbanBoard
+            jobs={filteredJobs}
+            setJobs={setJobs}
+            editJob={editJob}
+            deleteJob={deleteJob}
+          />
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 }
+
 export default App;
