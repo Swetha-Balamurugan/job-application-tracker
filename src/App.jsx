@@ -6,7 +6,7 @@ import Statistics from "./Components/Statistics";
 import JobForm from "./Components/Jobform";
 import SearchBar from "./Components/SearchBar";
 import JobList from "./Components/JobList";
-
+import "./app.css";
 function App() {
   const [jobTitle, setJobTitle] = useState("");
   const [status, setStatus] = useState("Applied");
